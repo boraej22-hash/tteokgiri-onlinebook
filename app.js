@@ -368,6 +368,18 @@
     location.hash = '#/search?q=' + encodeURIComponent(q);
   });
   window.addEventListener('hashchange', route);
+  // 카톡·인스타 등 앱 안 브라우저에서는 폰 저장이 지워질 수 있다 → 브라우저로 열기 안내
+  (function inAppBanner() {
+    var ua = navigator.userAgent || '';
+    var isKakao = /KAKAOTALK/i.test(ua), isOther = /Instagram|FBAN|FBAV|NAVER\(inapp|Line\//i.test(ua);
+    if (!isKakao && !isOther) return;
+    var url = location.href.split('#')[0];
+    var bar = document.createElement('div');
+    bar.className = 'inapp-banner';
+    bar.innerHTML = '<span>앱 안에서 열면 체크가 저장되지 않을 수 있어요.</span>' +
+      (isKakao ? '<a href="kakaotalk://web/openExternal?url=' + encodeURIComponent(url) + '">브라우저로 열기</a>' : '<span>오른쪽 위 메뉴에서 "브라우저로 열기"를 눌러 주세요.</span>');
+    document.body.insertBefore(bar, document.body.firstChild);
+  })();
   if (!book.chapters.length) {
     app.innerHTML = empty('내용을 불러오지 못했어요.', 'content.js 가 같은 폴더에 있는지 확인해 주세요.');
   } else {

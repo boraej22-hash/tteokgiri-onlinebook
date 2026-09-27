@@ -28,6 +28,11 @@ body {
 a { color: var(--brand); text-decoration: none; }
 code { background: var(--brand-soft); padding: 0 4px; border-radius: 4px; font-size: 0.9em; }
 
+.inapp-banner {
+  background: #fff1b8; color: #6b4f00; padding: 10px 16px; font-size: 14px;
+  display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap;
+}
+.inapp-banner a { background: #c4632a; color: #fff; padding: 6px 12px; border-radius: 8px; font-weight: 700; white-space: nowrap; }
 .top {
   position: sticky; top: 0; z-index: 10;
   background: var(--brand); color: #fff;
