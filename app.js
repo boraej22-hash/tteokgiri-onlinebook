@@ -35,7 +35,7 @@
     var headers = { 'apikey': SB.anon, 'Authorization': 'Bearer ' + SB.anon, 'Content-Type': 'application/json' };
     if (opts.prefer) headers['Prefer'] = opts.prefer;
     return fetch(SB.url.replace(/\/$/, '') + '/rest/v1/' + path, { method: opts.method || 'GET', headers: headers, body: opts.body ? JSON.stringify(opts.body) : undefined })
-      .then(function (r) { if (!r.ok) return r.text().then(function (t) { throw new Error(r.status + ' ' + t); }); return r.status === 204 ? null : r.json(); });
+      .then(function (r) { if (!r.ok) return r.text().then(function (t) { throw new Error(r.status + ' ' + t); }); return r.text().then(function (t) { return t ? JSON.parse(t) : null; }); });
   }
   var settingsCache = null;
   function loadSettings() {
@@ -376,7 +376,10 @@
     Promise.all([loadSettings(), fetchRunsForDate(date)]).then(function (r) {
       var s = r[0], runs = r[1] || [];
       function find(st, k) { return runs.filter(function (x) { return (x.store || '') === st && x.kind === k; })[0]; }
-      var storesToShow = s.stores.length ? s.stores : [''];
+      // 등록된 매장 + 그날 기록에 있는 매장(등록 전 기록이나 이름이 바뀐 매장도 빠지지 않게)
+      var storesToShow = s.stores.slice();
+      runs.forEach(function (x) { var st = x.store || ''; if (storesToShow.indexOf(st) < 0) storesToShow.push(st); });
+      if (!storesToShow.length) storesToShow = [''];
       var b = '';
       if (!s.stores.length || !s.staff.length) b += '<div class="save-note soft">' + (!s.stores.length ? '매장 이름이 아직 없어요. ' : '') + (!s.staff.length ? '직원 이름 목록이 아직 없어요. ' : '') + '아래 "매장·이름 목록 고치기"에서 등록해 주세요. (매장이 하나면 매장 이름 하나만 적으면 되고, 직원 화면에는 매장 선택이 나오지 않아요)</div>';
       // 위: 한눈에 보는 표 (상태 · 담당자 · 완료시간 · 미완료 개수 · 특이사항 표시)
