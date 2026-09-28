@@ -210,3 +210,4 @@ table.kv tr:first-child td { border-top: none; }
 .ok-text { color: var(--ok); font-weight: 700; }
 details.times { margin-top: 8px; }
 details.times summary { cursor: pointer; color: var(--brand); font-size: 14px; }
+.who-line a { white-space: nowrap; flex: 0 0 auto; }
