@@ -30,10 +30,10 @@
 - 교육표의 "읽었어요"는 날짜가 바뀌어도 남습니다.
 - 서버·데이터 창고 없음. 여러 폰의 기록을 모으는 것은 v2에서 Supabase로 합니다.
 
-## 인터넷 주소 (Vercel)
+## v2에서 달라진 것 (2026-09-28)
 
-- 주소: https://tteokgiri-onlinebook.vercel.app
-- Vercel 프로젝트: `tteokgiri-onlinebook` (계정 boraej22-9679)
-- 이 폴더는 캠프 공동 저장소의 `2조_김은정_떡기리/v1/프로젝트`를 복사한 독립 프로젝트입니다.
-- 내용을 고친 뒤 다시 올리기: 이 폴더에서 `npx vercel --prod` (Claude에게 "다시 배포해 줘"라고 해도 됩니다)
-- 캠프 폴더 쪽을 고쳤으면 이 폴더로 파일을 복사한 뒤 올립니다.
+- 오픈·마감 체크가 서버(Supabase)에 저장됩니다: 이름(매장이 2곳 이상이면 매장도) → 항목 즉시 저장 → 특이사항 → "완료 제출"(담당자·완료 시각).
+- 사장 점검표: 첫 화면 맨 아래 → PIN → 날짜별 매장 × 오픈·마감 상태, 칸을 누르면 항목별 시각·빠진 항목·특이사항. "매장·이름 목록 고치기"에서 매장·직원 이름 등록 (코드에 지점명 없음).
+- 파일: `supabase.sql`(테이블·잠금, 한 번 실행), `make-config.js`(.env.local 또는 Vercel 환경변수 → config.js), `vercel.json`(빌드 때 config.js 생성), `열쇠_예시.txt`.
+- 열쇠: Supabase **Publishable key**만 씁니다. secret/service_role 키는 쓰지 않습니다. `.env.local`·`config.js`는 git에 올라가지 않습니다.
+- 인터넷 주소: https://tteokgiri-onlinebook.vercel.app (Vercel 환경변수 SUPABASE_URL·SUPABASE_ANON_KEY·OWNER_PIN 설정됨). 고친 뒤 다시 올리기: 복사본 폴더에서 `npx vercel --prod`.
